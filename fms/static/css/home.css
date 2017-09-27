@@ -1,0 +1,109 @@
+body{
+    color: #000;
+    margin: 60px 20px 0px 20px;
+}
+.loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+.navbar-brand{
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+}
+.nav-content{
+    margin: 0px 30px 0px 30px;
+}
+.nav-button a{
+    color: #8a3ab9;
+}
+.nav-button{
+    margin: 10px 10px 10px 10px;
+    border-style: solid;
+    border-color: #8a3ab9;
+}
+.nav-button:hover{
+    background-color: #8a3ab9;
+    color: #fff;
+}
+.nav-button:hover a{
+    color: #FFFFFF;
+}
+#heading{
+    font-size: 300%;
+    text-align: center;
+}
+.fields{
+    height: 30px;
+    border-radius: 8%;
+}
+#heading1{
+    font-size: 35px;
+}
+#content-text{
+    font-size: 16px;
+    text-align: center;
+}
+.select-btn{
+    margin: 30px 10px 0px 10px;
+    text-align: center;
+}
+.reg-form{
+    background-color: #fbad50;
+    color: #000000;
+    margin-top: 7%;
+    text-align: center;
+}
+.navigation{
+    font-size: larger;
+    color: orangered;
+
+}
+.nav-pills{
+    border-radius: 5%;
+    background-color: transparent;
+}
+.nav-pills li{
+    border: 1px solid black;
+    border-radius: 5%;
+}
+.navbar-nav{
+        text-align: center;
+        display: inline;
+    }
+.logout{
+    float: right;
+    margin-top: 3%;
+    background-color: #c9302c;
+}
+a:hover
+{
+    color: #000000;
+    text-decoration: none;
+}
+a{
+    color: #000000;
+}
+.navbar-default{
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 5px #000000;
+}
+.active{
+    color: #000000;
+}
+.galleryImages{
+    width: auto;
+    height: 100%;
+}
+@media screen and (min-width: 480px) {
+    .navbar-nav{
+          float: right;
+    }
+}
+footer{
+    width: 100%;
+    background-color: #000000;
+}
+

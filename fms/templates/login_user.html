@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-sm-0 col-md-3 col-lg-3 col-xs-0"></div>
+            <div class="col col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default reg-form">
+
+                    <div class="panel-body">
+
+                        <h2 id="heading1">Login</h2>
+                        {% if error_message %}
+                            <script>toastr.error('{{ error_message }}');</script>
+                        {% endif %}
+                    <br><br>
+                    </div>
+                    <form class="form-horizontal" role="form" action="{% url 'fms:login_user' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                            <div class="form-group">
+                                <div class="col col-sm-offset-4">
+
+                                    <script>
+                                        if('{{ field.errors }}' != '')
+                                        {
+                                            toastr.error('{{ field.errors }}');
+                                        }
+                                    </script>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-xs-1 col-sm-1 col-lg-1 col-md-1"></div>
+                                    <div class="col col-cs-10 col-sm-10 col-lg-10 col-md-10">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        <input name="username" class="fields" type="text" placeholder="Username">
+                                        <br>
+                                        <br>
+                                        <br><br>
+                                        <span class="glyphicon glyphicon-lock"></span>
+                                        <input name="password" type="password" class="fields" placeholder="Password">
+                                    </div>
+                                    <div class="col col-xs-1 col-sm-1 col-lg-1 col-md-1"></div>
+                                </div>
+                            </div>
+                    <br><br>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="reset" style="margin-left: 30px;" class="btn btn-info">Reset</button>
+                        <br><br>
+                    </form>
+                </div>
+            </div>
+            <div class="col col-sm-0 col-md-3 col-lg-3 col-xs-0"></div>
+        </div>
+    </div>
+{% endblock %}
