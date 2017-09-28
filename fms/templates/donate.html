@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container-fluid">
+    <div class="row">
+            <div class="col col-sm-1 col-md-2 col-xs-1 col-lg-2"></div>
+            <div class="col col-sm-10 col-md-8 col-lg-8 col-xs-10 reg-form">
+                <p>Donate Food</p>
+                <p>Enter details of the food you have.</p>
+                <span onclick="createNewItem();" class="glyphicon glyphicon-plus-sign"></span>
+                Create New Item(s)
+                <span onclick="deleteAllItem();" class="glyphicon glyphicon-remove-sign"></span>
+                Delete All Item(s)
+                <form class="form-group" id="itemDetails" method="post" action="/getFood">
+                <br>
+                <p id="itemDetails1"></p>
+                <button type="submit" class="btn btn-success itemButton">Submit</button>
+                <button type="reset" class="btn btn-info itemButton">Reset</button>
+                </form>
+            </div>
+            <div class="col col-sm-1 col-md-2 col-xs-1 col-lg-2"></div>
+    </div>
+    </div>
+{% endblock %}

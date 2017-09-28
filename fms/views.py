@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect, render_to_response
-from django.template.context_processors import csrf
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+
 from .forms import UserForm
 from .models import user_info
+from random import randint
+from django.core.mail import EmailMessage
 
 
 def index(request):
@@ -28,7 +30,10 @@ def login_user(request):
                 return render(request, 'login_user.html',
                               {'error_message': 'Incorrect Username / Password!'})
 
-    return render(request, 'login_user.html')
+    return redirect('/')
+
+def donate(request):
+    return render(request, 'donate.html')
 
 
 def logout_user(request):
@@ -48,7 +53,7 @@ class UserFormView(View):
     def get(self, request):
         form = self.form_class(None)
         return render(request, self.template_name, {'form':form})
-
+    @csrf_exempt
     def post(self, request):
         form = self.form_class(request.POST)
 
@@ -57,20 +62,28 @@ class UserFormView(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user.set_password(password)
-            #insert phone number
+            #insert email
             email = form.cleaned_data['email']
-            print(email)
-            # is_user_existing = user_info.objects.filter(username = username)
-            # if is_user_existing.count() != 0:
-            #     return render(request, 'registration_form.html',
-            #                   {'error_message': 'User Already Registered!'})
-            # is_email_existing = user_info.objects.filter(email = email)
-            # if is_email_existing.count() != 0:
-            #     return render(request, 'registration_form.html', {'form': form, 'error_message': 'This E-Mail is already registered'})
+            is_user_existing = user_info.objects.filter(username = username)
+            if is_user_existing.count() != 0:
+                return render(request, 'registration_form.html',
+                              {'error_message': 'User Already Registered!'})
+            is_email_existing = user_info.objects.filter(email = email)
+            if is_email_existing.count() != 0:
+                return render(request, 'registration_form.html', {'form': form, 'error_message': 'This E-Mail is already registered'})
+            #random token generation
+            token = randint(10000, 99999)
             user_instance = user_info.objects.create(username = username,
                                                      email = email,
                                                      is_verified = False,
-                                                     token = 100)
+                                                     token = token)
+            #Email Code
+            subject = "Food Army Confirmation Code"
+            message = "Thank you for registering to Food Army. Your Confirmation code is: " + str(token) + ". Do not " \
+                        "share this with anyone. This code expires in a day."
+            e_mail = EmailMessage(subject, message, to=[str(email)])
+            e_mail.send()
+
             user.save()
             user_instance.save()
             user = authenticate(username=username, password=password)

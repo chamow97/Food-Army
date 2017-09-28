@@ -11,5 +11,5 @@ class user_info(models.Model):
     is_verified = models.BooleanField()
     token = models.IntegerField()
 
-    def __unicode__(self):
-        return self.username
+    def __str__(self):
+        return self.email
