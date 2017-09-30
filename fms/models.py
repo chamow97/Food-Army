@@ -10,6 +10,8 @@ class user_info(models.Model):
     email = models.EmailField(null=True)
     is_verified = models.BooleanField()
     token = models.IntegerField()
+    register_date = models.DateTimeField(null=True)
+    expiry_date = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.email

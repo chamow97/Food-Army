@@ -97,11 +97,12 @@ a{
     width: auto;
     height: 100%;
 }
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 800px) {
     .navbar-nav{
           float: right;
     }
 }
+
 footer{
     width: 100%;
     background-color: #000000;

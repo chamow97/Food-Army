@@ -2,11 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-
+from django.utils import timezone
 from .forms import UserForm
 from .models import user_info
 from random import randint
 from django.core.mail import EmailMessage
+from datetime import timedelta
 
 
 def index(request):
@@ -20,21 +21,44 @@ def login_user(request):
 
             user = authenticate(username=username, password=password)
             if user is not None:
+
+                #checking whether user is verified or not
+
                 if user.is_active:
-                    login(request, user)
-                    return redirect('/')
+                    user_instance = user_info.objects.filter(username=username)
+                    #if verified, login the user
+                    if user_instance[0].is_verified == True:
+                        login(request, user)
+                        return redirect('/')
+                    #else check for expiry date of OTP
+                    elif user_instance[0].is_verified == False:
+                        date_now = timezone.now()
+                        #if it has expired, go to reconfirmation page
+                        if user_instance[0].expiry_date < date_now:
+                            return redirect('/reconfirm')
+                        #if it has not expired, go to confirmation page
+                        else:
+                            return redirect('/confirm')
                 else:
                     return render(request, 'login_user.html',
                                   {'error_message' : 'Your account has been disabled!'})
             else:
                 return render(request, 'login_user.html',
                               {'error_message': 'Incorrect Username / Password!'})
-
-    return redirect('/')
+    elif request.user.is_authenticated():
+        return redirect('/')
+    return render(request, 'login_user.html')
 
 def donate(request):
+    if not request.user.is_active:
+       return render(request, 'login_user.html', {'error_message': 'Login to continue'})
     return render(request, 'donate.html')
 
+def confirm_account(request):
+    return render(request, 'confirm_account.html')
+
+def reconfirm_account(request):
+    return render(request, 'reconfirm_account.html')
 
 def logout_user(request):
     logout(request)
@@ -65,25 +89,30 @@ class UserFormView(View):
             #insert email
             email = form.cleaned_data['email']
             is_user_existing = user_info.objects.filter(username = username)
+
             if is_user_existing.count() != 0:
                 return render(request, 'registration_form.html',
                               {'error_message': 'User Already Registered!'})
             is_email_existing = user_info.objects.filter(email = email)
+            #if email is already used
             if is_email_existing.count() != 0:
                 return render(request, 'registration_form.html', {'form': form, 'error_message': 'This E-Mail is already registered'})
             #random token generation
+            #expiry date is 1 day after current time
+            expiry_date = timedelta(days=1)
             token = randint(10000, 99999)
             user_instance = user_info.objects.create(username = username,
                                                      email = email,
                                                      is_verified = False,
-                                                     token = token)
+                                                     token = token,
+                                                     register_date = timezone.now(),
+                                                     expiry_date = timezone.now() + expiry_date)
             #Email Code
             subject = "Food Army Confirmation Code"
             message = "Thank you for registering to Food Army. Your Confirmation code is: " + str(token) + ". Do not " \
                         "share this with anyone. This code expires in a day."
             e_mail = EmailMessage(subject, message, to=[str(email)])
             e_mail.send()
-
             user.save()
             user_instance.save()
             user = authenticate(username=username, password=password)
