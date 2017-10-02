@@ -1,5 +1,4 @@
 {% load staticfiles %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,9 +12,10 @@
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
     {#    jQuery#}
     <script type="text/javascript" src="{% static 'plugins/jquery.js' %}"></script>
-{#    Bootstrap JS#}
+   {#    Bootstrap JS#}
     <script type="text/javascript" src="{% static 'plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
-{#    local CSS#}
+
+    {#    local CSS#}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {#    toastr#}
     <script type="text/javascript" src="{% static 'plugins/toastr/build/toastr.min.js' %}" > </script>
@@ -30,7 +30,7 @@ toastr.options = {
   "onclick": null,
   "fadeIn": 300,
   "fadeOut": 1000,
-  "timeOut": 5000,
+  "timeOut": 10000,
   "extendedTimeOut": 1000
 }
 </script>

@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^logout_user$', views.logout_user, name='logout_user'),
     url(r'^donate$', views.donate, name='donate'),
     url(r'^confirm$', views.confirm_account, name='confirm_account'),
-    url(r'^reconfirm$', views.reconfirm_account, name='reconfirm_account')
+    url(r'^reconfirm$', views.reconfirm_account, name='reconfirm_account'),
+    url(r'^confirmation$', views.confirmation, name='confirmation'),
 ]

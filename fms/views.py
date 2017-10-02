@@ -32,6 +32,7 @@ def login_user(request):
                         return redirect('/')
                     #else check for expiry date of OTP
                     elif user_instance[0].is_verified == False:
+                        login(request, user)
                         date_now = timezone.now()
                         #if it has expired, go to reconfirmation page
                         if user_instance[0].expiry_date < date_now:
@@ -53,6 +54,18 @@ def donate(request):
     if not request.user.is_active:
        return render(request, 'login_user.html', {'error_message': 'Login to continue'})
     return render(request, 'donate.html')
+
+def confirmation(request):
+    confirmation_code = request.POST['confirmation_code']
+    username = request.POST['username']
+    user_instance = user_info.objects.filter(username=username)
+    if user_instance[0].token == int(confirmation_code):
+        current_user = user_info.objects.get(username=username)
+        current_user.is_verified = True
+        current_user.save()
+        return render(request, 'index.html', {'success_message': 'Account Confirmation Successful!'})
+    else:
+        return render(request, 'confirm_account.html', {'error_message': 'Incorrect Confirmation Code'})
 
 def confirm_account(request):
     return render(request, 'confirm_account.html')
@@ -115,10 +128,6 @@ class UserFormView(View):
             e_mail.send()
             user.save()
             user_instance.save()
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('/')
+            return render(request, 'index.html', {'info_message' : 'Check your mail for a confirmation code. The code expires in a day.'})
 
         return render(request, self.template_name, {'form':form})

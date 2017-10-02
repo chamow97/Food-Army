@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+{% if not request.user.is_active %}
+    <script>
+        toastr.error("Login to continue");
+        window.setTimeout(gotoHome, 2000);
+        function gotoHome(){
+            window.location.href = '/';
+        }
+    </script>
+{% else %}
+    <h2 id="heading">Enter the confirmation code sent to your mail.</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-sm-0 col-md-3 col-lg-3 col-xs-0"></div>
+            <div class="col col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default reg-form">
 
-</body>
-</html>
+                    <div class="panel-body">
+
+                        <h2 id="heading1">Confirm Account</h2>
+                        {% if error_message %}
+                            <script>toastr.error('{{ error_message }}');</script>
+                        {% endif %}
+                    <br><br>
+                    </div>
+                    <form class="form-horizontal" role="form" action="{% url 'fms:confirmation' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                            <div class="form-group">
+                                <div class="col col-sm-offset-4">
+
+                                    <script>
+                                        if('{{ field.errors }}' != '')
+                                        {
+                                            toastr.error('{{ field.errors }}');
+                                        }
+                                    </script>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-xs-1 col-sm-1 col-lg-1 col-md-1"></div>
+                                    <div class="col col-cs-10 col-sm-10 col-lg-10 col-md-10">
+                                        <span class="glyphicon glyphicon-keys"></span>
+                                        <input name="confirmation_code" class="fields" type="text" pattern="^(\d{5})?$" placeholder="Confirmation Code">
+                                        <input hidden name="username" value="{{ request.user.username }}">
+                                        <br>
+                                        <label>A 5 digit number</label>
+                                        <br>
+                                        <br>
+                                    </div>
+                                    <div class="col col-xs-1 col-sm-1 col-lg-1 col-md-1"></div>
+                                </div>
+                            </div>
+                    <br><br>
+                    <button type="submit" class="btn btn-success">Confirm Account</button>
+                    <button type="reset" style="margin-left: 30px;" class="btn btn-info">Reset</button>
+                        <br><br>
+                    </form>
+                </div>
+            </div>
+            <div class="col col-sm-0 col-md-3 col-lg-3 col-xs-0"></div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

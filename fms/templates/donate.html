@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block content %}
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
     <div class="container-fluid">
     <div class="row">
-            <div class="col col-sm-1 col-md-2 col-xs-1 col-lg-2"></div>
-            <div class="col col-sm-10 col-md-8 col-lg-8 col-xs-10 reg-form">
-                <p>Donate Food</p>
-                <p>Enter details of the food you have.</p>
+            <div class="col col-sm-0 col-md-1 col-xs-0 col-lg-1"></div>
+            <div class="col col-sm-12 col-md-10 col-lg-10 col-xs-12 reg-form">
+                <h3>Donate Food</h3>
+                <h4>Enter details of the food you have.</h4>
+                <p>*Give an approximate expiry date for home made item based on the food item.</p>
+                <p>*Upload a single quality photo of all the foods just for confirmation.</p>
                 <span onclick="createNewItem();" class="glyphicon glyphicon-plus-sign"></span>
                 Create New Item(s)
                 <span onclick="deleteAllItem();" class="glyphicon glyphicon-remove-sign"></span>
@@ -14,11 +17,28 @@
                 <form class="form-group" id="itemDetails" method="post" action="/getFood">
                 <br>
                 <p id="itemDetails1"></p>
+                    <div class="col col-sm-offset-1 col-md-offset-0 col-lg-offset-1 col-xs-offset-1">
+                        <label style="display: inline-block">Photo:</label>
+
+                        <input onchange="fetchImage(this);" accept="image/*" required style="display: inline-block" class="form-control itemField" name="food_image" type="file">
+                        <br>
+                    </div>
+                    <div class="col col-sm-offset-1 col-md-offset-2 col-lg-offset-3 col-xs-offset-0">
+                        <img class="img-responsive" id="imagePreview" />
+                    </div>
+                    <div class="col col-sm-offset-0 col-md-offset-0 col-lg-offset-0 col-xs-offset-0">
+                        <br>
+                        <label>Pin your location</label>
+                        <div id="map"></div>
+                    </div>
+                <br>
+                <br>
                 <button type="submit" class="btn btn-success itemButton">Submit</button>
-                <button type="reset" class="btn btn-info itemButton">Reset</button>
+                <button type="button" class="btn btn-danger itemButton" onclick="location.href='/';">Cancel</button>
                 </form>
             </div>
-            <div class="col col-sm-1 col-md-2 col-xs-1 col-lg-2"></div>
+            <div class="col col-sm-12 col-md-1 col-xs-0 col-lg-1"></div>
     </div>
     </div>
+
 {% endblock %}
