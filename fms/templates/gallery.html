@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block gallery_selected %}
+    nav-button-selected
+{% endblock %}
+{% block content %}
+    <h1 class="text-center">Gallery</h1>
+    <br>
+    <br>
+    <div id="grid">
+    <div class="grid-sizer"></div>
+    {% for image in gallery %}
+        <div id="grid-item">
+        <img src="{{ image.image.url }}" />
+        </div>
+    {% endfor %}
+    </div>
+    <script>
+    var $grid = $('.grid').masonry({
+  itemSelector: '.grid-item',
+  percentPosition: true,
+  columnWidth: '.grid-sizer'
+});
+// layout Masonry after each image loads
+$grid.imagesLoaded().progress( function() {
+  $grid.masonry();
+});
+    </script>
+{% endblock %}

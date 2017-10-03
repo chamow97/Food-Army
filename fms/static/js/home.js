@@ -1,24 +1,31 @@
 var counter = 0;
-
-
 function createNewItem()
 {
     ++counter;
     var html = "<input name='food";
     html += counter;
     html +="' required class='itemField form-control' type='text' placeholder='Food item Name'>";
-    html += "<select class='itemField form-control'>" +
+    html += "<select name='item_weight"
+    html += counter;
+    html += "' class='itemField form-control'>" +
         "<option value='Less than 5Kg'>Less than 5Kg</option>" +
         "<option value='5Kg - 15Kg'>5Kg - 15Kg</option>" +
         "<option value='15Kg - 25Kg'>15Kg - 25Kg</option>" +
         "<option value='Greater than 25Kg'>Greater than 25Kg" +
         "</option></select>" +
-        "<input type='datetime-local' class='itemField form-control' placeholder='Expiry Date' required />";
+        "<input name='food_expiry";
+    html += counter;
+    html += "' type='datetime-local' class='itemField form-control' placeholder='Expiry Date' required />";
         document.getElementById("itemDetails1").innerHTML += html;
+}
+function resetItems()
+{
+    counter = 0;
 }
 function deleteAllItem()
 {
     document.getElementById("itemDetails1").innerHTML = "";
+    counter = 0;
 }
 function fetchImage(input) {
     if(input.files && input.files[0])
@@ -31,7 +38,7 @@ function fetchImage(input) {
     }
     reader.readAsDataURL(input.files[0]);
 }
-var map, infoWindow;
+    var map, infoWindow;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
@@ -67,4 +74,8 @@ var map, infoWindow;
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
       }
+      $('#homeGallery').carousel({
+        interval: 5000,
+          pause:false
+    });
 

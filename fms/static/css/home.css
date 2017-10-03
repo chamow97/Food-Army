@@ -11,16 +11,24 @@ body{
     margin: 0px 30px 0px 30px;
 }
 .nav-button a{
-    color: #8a3ab9;
+    color: #4c68d7;
 }
 .nav-button{
     margin: 10px 10px 10px 10px;
     border-style: solid;
-    border-color: #8a3ab9;
+    border-color: #4c68d7;
 }
 .nav-button:hover{
-    background-color: #8a3ab9;
+    background-color: #4c68d7;
     color: #fff;
+}
+.nav-button-selected{
+    background-color: #4c68d7;
+    margin: 10px 10px 10px 10px;
+    color: #FFFFFF;
+}
+.nav-button-selected a{
+    color: #FFFFFF;
 }
 .nav-button:hover a{
     color: #FFFFFF;
@@ -45,9 +53,7 @@ body{
     text-align: center;
 }
 .reg-form{
-    background-color: #fbad50;
-    color: #000000;
-    margin-top: 7%;
+    background-color: #a7e086;
     text-align: center;
 }
 .navigation{
@@ -84,13 +90,9 @@ a{
     background-color: #FFFFFF;
     box-shadow: 2px 2px 5px #000000;
 }
-.active{
-    color: #000000;
-}
+
 .galleryImages{
-    width: 80%;
-    height: 80%;
-    text-align: center;
+    width: 100%;
 }
 @media screen and (min-width: 800px) {
     .navbar-nav{
@@ -113,4 +115,69 @@ footer{
 #map {
         height: 100%;
 }
+@media (max-width: 767px) {
+    .slider-size {
+        height: auto;
+    }
+    .slider-size > img {
+         width: 100%;
+    }
+}
+
+/* tablets */
+@media (max-width: 991px) and (min-width: 768px) {
+    .slider-size {
+        height: auto;
+    }
+    .slider-size > img {
+        width: 100%;
+    }
+}
+
+/* laptops */
+@media (max-width: 1023px) and (min-width: 992px) {
+    .slider-size {
+         height: 400px;
+    }
+    .slider-size > img {
+        width: 100%;
+    }
+}
+
+/* desktops */
+@media (min-width: 1024px) {
+    .slider-size {
+        height: 600px;
+    }
+    .slider-size > img {
+        width: 100%;
+    }
+}
+.grid {
+  background: #DDD;
+}
+
+/* clear fix */
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* ---- .grid-item ---- */
+
+.grid-sizer,
+.grid-item {
+  width: 33.333%;
+}
+
+.grid-item {
+  float: left;
+}
+
+.grid-item img {
+  display: block;
+  max-width: 100%;
+}
+
 

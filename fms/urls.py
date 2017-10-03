@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^confirm$', views.confirm_account, name='confirm_account'),
     url(r'^reconfirm$', views.reconfirm_account, name='reconfirm_account'),
     url(r'^confirmation$', views.confirmation, name='confirmation'),
+    url(r'^getFood$', views.save_donation, name='save_donation'),
+    url(r'^gallery$', views.gallery, name='gallery')
 ]

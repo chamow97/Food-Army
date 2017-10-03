@@ -1,13 +1,17 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from .forms import UserForm
 from .models import user_info
+from .models import donate_info
+from .models import food_info
 from random import randint
 from django.core.mail import EmailMessage
 from datetime import timedelta
+from .models import gallery_info
 
 
 def index(request):
@@ -70,6 +74,10 @@ def confirmation(request):
 def confirm_account(request):
     return render(request, 'confirm_account.html')
 
+def gallery(request):
+    gallery_instance =gallery_info.objects.all()
+    return render(request, 'gallery.html', {'gallery' : gallery_instance})
+
 def reconfirm_account(request):
     return render(request, 'reconfirm_account.html')
 
@@ -82,6 +90,36 @@ def logout_user(request):
     return render(request, 'index.html',
                               {'success_message': 'Successfully Logged Out'})
 
+@csrf_exempt
+def save_donation(request):
+
+    username = request.POST['username']
+    foodImage = request.FILES['food_image']
+    fs = FileSystemStorage()
+    filename = fs.save(foodImage.name, foodImage)
+    donation_instance = donate_info(user_name=username,
+                                    is_resolved=False,
+                                    request_date=timezone.now(),
+                                    food_image=filename)
+    donation_instance.save()
+    for i in range(1,2000000):
+        try:
+            request_id = donate_info.objects.latest('user_name')
+            item_name = 'food' + str(i)
+            item_weight = 'item_weight' + str(i)
+            item_expiry = 'food_expiry' + str(i)
+            food_name = request.POST[item_name]
+            food_weight = request.POST[item_weight]
+            food_expiry = request.POST[item_expiry]
+            food_instance = food_info(user_name=username,
+                                      food_name=food_name,
+                                      item_amount=food_weight,
+                                      expiry_date=food_expiry,
+                                      request_id=request_id)
+            food_instance.save()
+        except:
+            break
+    return render(request, 'index.html', {'success_message' : 'Your request is submitted successfully. A field worker will contact you shortly.'})
 
 class UserFormView(View):
     form_class = UserForm

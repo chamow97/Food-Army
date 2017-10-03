@@ -14,10 +14,13 @@
     <script type="text/javascript" src="{% static 'plugins/jquery.js' %}"></script>
    {#    Bootstrap JS#}
     <script type="text/javascript" src="{% static 'plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
-
+    {#    images loaded#}
+    <script type="text/javascript" src="https://unpkg.com/imagesloaded@4.1.3/imagesloaded.pkgd.min.js"></script>
+    {#    masonry#}
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     {#    local CSS#}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
-{#    toastr#}
+    {#    toastr#}
     <script type="text/javascript" src="{% static 'plugins/toastr/build/toastr.min.js' %}" > </script>
     <link rel="stylesheet" href="{% static 'plugins/toastr/build/toastr.css' %}">
 </head>
@@ -46,13 +49,13 @@ toastr.options = {
         </div>
         <div class="collapse navbar-collapse" id="navBar">
             <ul class="nav navbar-nav" id="hello">
-               <li><button class="btn btn-default nav-button"><a href="../register">Donate</a></button></li>
-               <li><button class="btn btn-default nav-button"><a href="../register">Register</a></button></li>
-               <li><button class="btn btn-default nav-button login-btn"><a href="../login_user">Login</a></button></li>
-               <li><button class="btn btn-default nav-button logout-btn"><a href="../logout_user">Logout</a></button></li>
-               <li><button class="btn btn-default nav-button"><a href="../login_user">Gallery</a></button></li>
+               <li><button class="btn btn-default nav-button {% block donate_selected %}{% endblock %}"><a href="../donate">Donate</a></button></li>
+               <li><button class="btn btn-default nav-button {% block register_selected %}{% endblock %}"><a href="../register">Register</a></button></li>
+               <li><button class="btn btn-default nav-button login-btn {% block login_selected %}{% endblock %}"><a href="../login_user">Login</a></button></li>
+               <li><button class="btn btn-default nav-button logout-btn {% block logout_selected %}{% endblock %}"><a href="../logout_user">Logout</a></button></li>
+               <li><button class="btn btn-default nav-button {% block gallery_selected %}{% endblock %}"><a href="../gallery">Gallery</a></button></li>
 
-               <li><button class="btn btn-default nav-button"><a href="../login_user">About</a></button></li>
+               <li><button class="btn btn-default nav-button {% block about_selected %}{% endblock %}"><a href="../about">About</a></button></li>
 
             </ul>
         </div>
@@ -63,7 +66,6 @@ toastr.options = {
     </div>
     {% if request.user.is_active %}
        <script>
-           toastr.success('Welcome back {{ user.username }}');
            $(".login-btn").hide();
            $(".logout-btn").show();
        </script>
