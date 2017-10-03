@@ -95,12 +95,20 @@ def save_donation(request):
 
     username = request.POST['username']
     foodImage = request.FILES['food_image']
+    street = request.POST['street']
+    locality = request.POST['locality']
+    city = request.POST['city']
+    contact = request.POST['contact']
     fs = FileSystemStorage()
     filename = fs.save(foodImage.name, foodImage)
     donation_instance = donate_info(user_name=username,
                                     is_resolved=False,
                                     request_date=timezone.now(),
-                                    food_image=filename)
+                                    food_image=filename,
+                                    street=street,
+                                    locality=locality,
+                                    city=city,
+                                    mobile=contact)
     donation_instance.save()
     for i in range(1,2000000):
         try:
@@ -120,6 +128,20 @@ def save_donation(request):
         except:
             break
     return render(request, 'index.html', {'success_message' : 'Your request is submitted successfully. A field worker will contact you shortly.'})
+
+def account(request):
+    if not request.user.is_active:
+       return render(request, 'login_user.html', {'error_message': 'Login to continue'})
+    username = request.user.username
+    food_instance = []
+    account_instance = donate_info.objects.filter(user_name=username).order_by('-request_date')
+    for donation in account_instance:
+        try:
+            food = food_info.objects.filter(request_id=int(donation.request_id))
+            food_instance.append(food)
+        except:
+            food_instance.append(None)
+    return render(request, 'account.html', {'donation':account_instance, 'food':food_instance})
 
 class UserFormView(View):
     form_class = UserForm

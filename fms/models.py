@@ -28,8 +28,10 @@ class donate_info(models.Model):
     user_name = models.CharField(max_length=100)
     request_date = models.DateField(null=True)
     food_image = models.FileField(null=True, upload_to=get_upload_file_name)
-    latitude = models.CharField(max_length=100, null=True)
-    longitude = models.CharField(max_length=100, null=True)
+    street = models.CharField(max_length=100, null=True)
+    locality = models.CharField(max_length=100, null=True)
+    city = models.CharField(max_length=100, null=True)
+    mobile = models.IntegerField(null=True)
 
     def __str__(self):
         return str(self.request_id)

@@ -21,7 +21,7 @@
 
                 <p id="itemDetails1"></p>
                     <input hidden name="username" value="{{ request.user.username }}">
-                    <div class="col col-sm-offset-1 col-md-offset-0 col-lg-offset-1 col-xs-offset-1">
+                    <div class="col col-sm-offset-1 col-md-offset-0 col-lg-offset-0 col-xs-offset-1">
                         <label style="display: inline-block">Photo:</label>
 
                         <input onchange="fetchImage(this);" accept="image/*" required style="display: inline-block" class="form-control itemField" name="food_image" type="file">
@@ -30,12 +30,20 @@
                     <div class="col col-sm-offset-1 col-md-offset-2 col-lg-offset-3 col-xs-offset-0">
                         <img class="img-responsive" id="imagePreview" />
                     </div>
-                    <div class="col col-sm-offset-0 col-md-offset-0 col-lg-offset-0 col-xs-offset-0">
+                    <br>
+                    <label>Location</label>
+                    <input required maxlength=100 name="street" class="form-control itemField" type="text" placeholder="Street Name | Door Number">
+                    <input required maxlength=100 name="locality" class="form-control itemField" type="text" placeholder="Locality">
+                    <input required maxlength=100 name="city" class="form-control itemField" type="text" placeholder="City">
+                    <br>
+                    <br>
+                    <div class="col col-sm-offset-1 col-md-offset-0 col-lg-offset-0 col-xs-offset-1">
+                        <label style="display: inline-block">Contact:</label>
+
+                        <input pattern="^\d{10}$" maxlength=10 required style="display: inline-block" class="form-control itemField" placeholder="Mobile Number" name="contact" type="text">
                         <br>
-                        <label>Pin your location</label>
-                        <div name="map" id="map"></div>
                     </div>
-                <br>
+                    <br>
                 <br>
                 <button type="submit" class="btn btn-success itemButton" onclick="resetItems();">Submit</button>
                 <button type="button" class="btn btn-danger itemButton" onclick="location.href='/';">Cancel</button>
@@ -44,7 +52,6 @@
             <div class="col col-sm-12 col-md-1 col-xs-0 col-lg-1"></div>
     </div>
     </div>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
 
 
 {% endblock %}

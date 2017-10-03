@@ -14,10 +14,6 @@
     <script type="text/javascript" src="{% static 'plugins/jquery.js' %}"></script>
    {#    Bootstrap JS#}
     <script type="text/javascript" src="{% static 'plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
-    {#    images loaded#}
-    <script type="text/javascript" src="https://unpkg.com/imagesloaded@4.1.3/imagesloaded.pkgd.min.js"></script>
-    {#    masonry#}
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     {#    local CSS#}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     {#    toastr#}
@@ -33,7 +29,7 @@ toastr.options = {
   "onclick": null,
   "fadeIn": 300,
   "fadeOut": 1000,
-  "timeOut": 10000,
+  "timeOut": 5000,
   "extendedTimeOut": 1000
 }
 </script>
@@ -52,10 +48,10 @@ toastr.options = {
                <li><button class="btn btn-default nav-button {% block donate_selected %}{% endblock %}"><a href="../donate">Donate</a></button></li>
                <li><button class="btn btn-default nav-button {% block register_selected %}{% endblock %}"><a href="../register">Register</a></button></li>
                <li><button class="btn btn-default nav-button login-btn {% block login_selected %}{% endblock %}"><a href="../login_user">Login</a></button></li>
-               <li><button class="btn btn-default nav-button logout-btn {% block logout_selected %}{% endblock %}"><a href="../logout_user">Logout</a></button></li>
+               <li><button class="btn btn-default nav-button logout-btn {% block account_selected %}{% endblock %}"><a href="../account">Hi! {{ request.user.username }}</a></button></li>
                <li><button class="btn btn-default nav-button {% block gallery_selected %}{% endblock %}"><a href="../gallery">Gallery</a></button></li>
 
-               <li><button class="btn btn-default nav-button {% block about_selected %}{% endblock %}"><a href="../about">About</a></button></li>
+               <li><button class="btn btn-default nav-button {% block join_selected %}{% endblock %}"><a href="../about">Join Us</a></button></li>
 
             </ul>
         </div>
@@ -79,8 +75,21 @@ toastr.options = {
     <br>
 {% block content %}
 {% endblock %}
-
+<br>
+<br>
+<br>
 </body>
-
+<footer id="commonFooter">
+<div class="col-sm-offset-2 col-xs-offset-1 col-md-offset-2 col-lg-offset-3">
+    <br><br>
+    <h4 id="footerText">Made with <span style="color: #b92c28" class="glyphicon glyphicon-heart"></span> by Chandramowli. Code available as open
+        source at <a href="www.github.com/chamow97/food-army">GitHub</a>.
+    <br>
+    <br>
+        <br>
+    </h4>
+    <br><br>
+</div>
+</footer>
 <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 </html>

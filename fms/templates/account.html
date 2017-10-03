@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block account_selected %}
+    nav-button-selected
+{% endblock %}
+{% block content %}
+    <div class="row">
+    <div class="col-sm-offset-9 col-md-offset-10 col-lg-offset-10 col-xs-offset-9">
+        <button class="btn btn-default nav-button"><a href="../logout_user">Logout</a></button>
+    </div>
+    </div>
+    <div class="row">
+        <h2 class="text-center">Your Donations</h2>
+    <br>
+    <br>
+    </div>
+    <div class="row">
+    <div class="col-xs-0 col-md-1 col-lg-1 col-sm-0"></div>
+    <div class="col-xs-12 col-md-10 col-lg-10 col-sm-12">
+        <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Address</th>
+        <th>Contact</th>
+        <th>Image</th>
+        <th>Food Information</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if donation.count == 0 %}
+        <p>No Donations made</p>
+    {% else %}
+
+    {% for item in donation %}
+        <tr>
+        <td>{{ item.request_date }}</td>
+        <td>{{ item.street }}, {{ item.locality }}, {{ item.city }}</td>
+        <td>{{ item.mobile }}</td>
+        <td><img src="{{ item.food_image.url }}" style="height: 100px; width: 200px;"></td>
+        <td>
+        {% if food.count == 0 %}
+            No food item
+        {% else %}
+            {% for food_info in food %}
+                {% for each_item in food_info %}
+                    {{ each_item }},
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        </td>
+        </tr>
+    {% endfor %}
+    {% endif %}
+    </tbody>
+  </table>
+  </div>
+    </div>
+    <div class="col-xs-0 col-md-1 col-lg-1 col-sm-0"></div>
+
+    </div>
+
+
+{% endblock %}
