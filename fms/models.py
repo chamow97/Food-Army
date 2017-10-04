@@ -46,9 +46,23 @@ class food_info(models.Model):
 
     def __str__(self):
         return self.food_name
+
 class gallery_info(models.Model):
     image_id = models.AutoField(primary_key=True)
     image = models.FileField(upload_to=get_gallery_file_name)
 
     def __str__(self):
         return str(self.image_id)
+
+class new_applicants(models.Model):
+    name = models.CharField(max_length=100)
+    street = models.CharField(max_length=100)
+    locality = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    mobile = models.IntegerField()
+    email = models.EmailField(primary_key=True)
+    is_a_member = models.BooleanField()
+
+
+    def __str__(self):
+        return self.name + " : " + str(self.is_a_member)

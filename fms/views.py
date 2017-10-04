@@ -12,6 +12,7 @@ from random import randint
 from django.core.mail import EmailMessage
 from datetime import timedelta
 from .models import gallery_info
+from .models import new_applicants
 
 
 def index(request):
@@ -57,7 +58,21 @@ def login_user(request):
 def donate(request):
     if not request.user.is_active:
        return render(request, 'login_user.html', {'error_message': 'Login to continue'})
-    return render(request, 'donate.html')
+    if request.user.is_active:
+        user_instance = user_info.objects.filter(username=request.user.username)
+        # if verified, login the user
+        if user_instance[0].is_verified == True:
+            return render(request, 'donate.html')
+        # else check for expiry date of OTP
+        elif user_instance[0].is_verified == False:
+            login(request, request.user)
+            date_now = timezone.now()
+            # if it has expired, go to reconfirmation page
+            if user_instance[0].expiry_date < date_now:
+                return redirect('/reconfirm')
+            # if it has not expired, go to confirmation page
+            else:
+                return redirect('/confirm')
 
 def confirmation(request):
     confirmation_code = request.POST['confirmation_code']
@@ -80,6 +95,55 @@ def gallery(request):
 
 def reconfirm_account(request):
     return render(request, 'reconfirm_account.html')
+
+def reconfirm_code(request):
+    username = request.user.username
+    expiry_date = timedelta(days=1)
+    token = randint(10000, 99999)
+    user_instance = user_info.objects.get(username=username)
+    user_instance.expiry_date = timezone.now() + expiry_date
+    user_instance.token = token
+    try:
+        subject = "Food Army Confirmation Code"
+        message = "Thank you for registering to Food Army. Your Confirmation code is: " + str(token) + ". Do not " \
+                                                                                                "share this with anyone. This code expires in a day."
+        e_mail = EmailMessage(subject, message, to=[str(user_instance.email)])
+        e_mail.send()
+        print(user_instance.expiry_date)
+        print(user_instance.token)
+        user_instance.save()
+        return render(request, 'index.html', {'info_message': 'Confirmation Code has been sent again to your mail. Code expires in a day.'})
+    except:
+        return render(request, 'index.html', {'error_message': 'Some internal issues. Sorry for inconvenience. Try again later.'})
+
+def join_us_page(request):
+    return render(request, 'join_us.html')
+
+def join_us(request):
+    try:
+        name = request.POST['name']
+        street = request.POST['street']
+        locality = request.POST['locality']
+        city = request.POST['city']
+        mobile = request.POST['mobile']
+        email = request.POST['email']
+        is_old_worker = new_applicants.objects.filter(email=email)
+        if is_old_worker.count() != 0:
+            return render(request, 'join_us.html', {'error_message':'A Field worker with that e-mail already exist.'})
+        new_worker = new_applicants(name=name,
+                                    street=street,
+                                    locality=locality,
+                                    city=city,
+                                    mobile=mobile,
+                                    email=email,
+                                    is_a_member=False)
+        new_worker.save()
+        return render(request, 'index.html', {'info_message':'Your information is with us. We will contact you shortly.'})
+
+    except:
+        render(request, 'join_us.html', {'error_message':'Some internal issues. Try again after some time'})
+    return render(request, 'join_us.html')
+
 
 def logout_user(request):
     logout(request)
@@ -172,22 +236,25 @@ class UserFormView(View):
                 return render(request, 'registration_form.html', {'form': form, 'error_message': 'This E-Mail is already registered'})
             #random token generation
             #expiry date is 1 day after current time
-            expiry_date = timedelta(days=1)
-            token = randint(10000, 99999)
-            user_instance = user_info.objects.create(username = username,
+            try:
+                expiry_date = timedelta(days=1)
+                token = randint(10000, 99999)
+                user_instance = user_info.objects.create(username = username,
                                                      email = email,
                                                      is_verified = False,
                                                      token = token,
                                                      register_date = timezone.now(),
                                                      expiry_date = timezone.now() + expiry_date)
-            #Email Code
-            subject = "Food Army Confirmation Code"
-            message = "Thank you for registering to Food Army. Your Confirmation code is: " + str(token) + ". Do not " \
+                #Email Code
+                subject = "Food Army Confirmation Code"
+                message = "Thank you for registering to Food Army. Your Confirmation code is: " + str(token) + ". Do not " \
                         "share this with anyone. This code expires in a day."
-            e_mail = EmailMessage(subject, message, to=[str(email)])
-            e_mail.send()
-            user.save()
-            user_instance.save()
-            return render(request, 'index.html', {'info_message' : 'Check your mail for a confirmation code. The code expires in a day.'})
+                e_mail = EmailMessage(subject, message, to=[str(email)])
+                e_mail.send()
+                user.save()
+                user_instance.save()
+                return render(request, 'index.html', {'info_message' : 'Check your mail for a confirmation code. The code expires in a day.'})
+            except:
+                return render(request, 'index.html', {'error_message': 'Some internal issues. Sorry for inconvenience. Try again later.'})
 
         return render(request, self.template_name, {'form':form})

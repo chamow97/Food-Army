@@ -14,5 +14,8 @@ urlpatterns = [
     url(r'^confirmation$', views.confirmation, name='confirmation'),
     url(r'^getFood$', views.save_donation, name='save_donation'),
     url(r'^gallery$', views.gallery, name='gallery'),
-    url(r'^account$', views.account, name='account')
+    url(r'^account$', views.account, name='account'),
+    url(r'^reconfirm_code$', views.reconfirm_code, name='reconfirm_code'),
+    url(r'^join_us_page$', views.join_us_page, name='join_us_page'),
+    url(r'^join_us$', views.join_us, name='join_us')
 ]

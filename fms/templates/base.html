@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}"/>
-    <title>Food Management System</title>
+    <title>Food Army</title>
 {#    Fonts#}
     <link href="{% static 'fonts/Bellefair-Regular.ttf' %}">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
@@ -51,7 +51,7 @@ toastr.options = {
                <li><button class="btn btn-default nav-button logout-btn {% block account_selected %}{% endblock %}"><a href="../account">Hi! {{ request.user.username }}</a></button></li>
                <li><button class="btn btn-default nav-button {% block gallery_selected %}{% endblock %}"><a href="../gallery">Gallery</a></button></li>
 
-               <li><button class="btn btn-default nav-button {% block join_selected %}{% endblock %}"><a href="../about">Join Us</a></button></li>
+               <li><button class="btn btn-default nav-button {% block join_selected %}{% endblock %}"><a href="../join_us_page">Join Us</a></button></li>
 
             </ul>
         </div>
@@ -83,7 +83,7 @@ toastr.options = {
 <div class="col-sm-offset-2 col-xs-offset-1 col-md-offset-2 col-lg-offset-3">
     <br><br>
     <h4 id="footerText">Made with <span style="color: #b92c28" class="glyphicon glyphicon-heart"></span> by Chandramowli. Code available as open
-        source at <a href="www.github.com/chamow97/food-army">GitHub</a>.
+        source at <a href="https://github.com/chamow97/food-army">GitHub</a>.
     <br>
     <br>
         <br>

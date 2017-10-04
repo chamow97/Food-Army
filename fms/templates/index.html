@@ -9,6 +9,10 @@
 {% if info_message  %}
     <script>toastr.info('{{ info_message }}');</script>
 {% endif %}
+{% if error_message  %}
+    <script>toastr.error('{{ error_message }}');</script>
+{% endif %}
+
 <section>
 <div class="container-fluid">
     <div class="row">
@@ -23,10 +27,10 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="item active slider-size">
-                        <img class="galleryImages" src="{% static 'images/slideshow/slide-5.jpg' %}" alt="Slide1">
+                        <img class="galleryImages" src="{% static 'images/slideshow/slide-2.jpg' %}" alt="Slide1">
                     </div>
                     <div class="item slider-size">
-                        <img class="galleryImages" src="{% static 'images/slideshow/slide-2.jpg' %}" alt="Slide1">
+                        <img class="galleryImages" src="{% static 'images/slideshow/slide-5.jpg' %}" alt="Slide1">
                     </div>
                     <div class="item slider-size">
                         <img class="galleryImages" src="{% static 'images/slideshow/slide-3.jpg' %}" alt="Slide1">

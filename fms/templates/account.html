@@ -18,6 +18,9 @@
     <div class="col-xs-0 col-md-1 col-lg-1 col-sm-0"></div>
     <div class="col-xs-12 col-md-10 col-lg-10 col-sm-12">
         <div class="table-responsive">
+  {% if donation.count == 0 %}
+        <h4 class="text-center">No Donations made</h4>
+   {% else %}
   <table class="table">
     <thead>
       <tr>
@@ -29,9 +32,8 @@
       </tr>
     </thead>
     <tbody>
-    {% if donation.count == 0 %}
-        <p>No Donations made</p>
-    {% else %}
+
+
 
     {% for item in donation %}
         <tr>

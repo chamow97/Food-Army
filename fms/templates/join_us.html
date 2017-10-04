@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block join_selected %}
+    nav-button-selected
+{% endblock %}
+{% block content %}
+    {% if success_message  %}
+    <script>toastr.success('{{ success_message }}');</script>
+{% endif %}
+{% if info_message  %}
+    <script>toastr.info('{{ info_message }}');</script>
+{% endif %}
+{% if error_message  %}
+    <script>toastr.error('{{ error_message }}');</script>
+{% endif %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-sm-0 col-md-2 col-lg-2 col-xs-0"></div>
+            <div class="col col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <div class="panel panel-default reg-form">
+
+                    <div class="panel-body">
+                         <h2 id="heading1">Join Our Army!</h2>
+                    </div>
+                    <br>
+                    <br>
+                    <form class="form-horizontal" action="../join_us" role="form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                                <div class="row">
+                                    <div class="col col-xs-1 col-sm-1 col-lg-1 col-md-1"></div>
+                                    <div class="col col-cs-10 col-sm-10 col-lg-10 col-md-10">
+                                        <input name="name" type="text" class="form-control itemField" placeholder="Name" required>
+                                        <input name="street" type="text" class="form-control itemField" placeholder="Street" required>
+                                        <input name="locality" type="text" class="form-control itemField" placeholder="Locality" required>
+                                        <input name="city" type="text" class="form-control itemField" placeholder="City" required>
+                                        <input name="mobile" type="text" class="form-control itemField" maxlength=10 pattern="^\d{10}$" placeholder="10 digit Mobile Number" required>
+                                        <input name="email" type="email" class="form-control itemField" placeholder="E-Mail" required>
+                                    <br><br>
+                                    </div>
+                                    <div class="col col-xs-1 col-sm-1 col-lg-1 col-md-1"></div>
+                                </div>
+                            </div>
+                    <br><br>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="reset" style="margin-left: 30px;" class="btn btn-info">Reset</button>
+                    <br><br>
+                    </form>
+                </div>
+            </div>
+            <div class="col col-sm-0 col-md-2 col-lg-2 col-xs-0"></div>
+        </div>
+    </div>
+
+{% endblock %}
