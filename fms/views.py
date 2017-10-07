@@ -202,6 +202,9 @@ def account(request):
     for donation in account_instance:
         try:
             food = food_info.objects.filter(request_id=int(donation.request_id))
+            donation.request_id = int(donation.request_id)
+            for item in food:
+                item.request_id = int(item.request_id)
             food_instance.append(food)
         except:
             food_instance.append(None)

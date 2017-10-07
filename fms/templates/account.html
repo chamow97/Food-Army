@@ -47,8 +47,11 @@
         {% else %}
             {% for food_info in food %}
                 {% for each_item in food_info %}
-                    {{ each_item }},
+                    {% if each_item.request_id == item.request_id %}
+                        {{ each_item }},
+                    {% endif %}
                 {% endfor %}
+
             {% endfor %}
         {% endif %}
 
