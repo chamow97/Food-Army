@@ -1,7 +1,7 @@
 import os
 import sys
 
-path = '/home/Food-Army/food_management_system'
+path = '/home/foodarmy/Food-Army'
 
 if path not in sys.path:
 	sys.path.append(path)
