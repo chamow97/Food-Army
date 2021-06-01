@@ -55,7 +55,7 @@ tweepy==3.5.0
 twilio==6.6.3
 Twisted==17.5.0
 TwitterAPI==2.4.5
-urllib3==1.22
+urllib3==1.26.5
 w3lib==1.18.0
 whitenoise==3.3.0
 zope.interface==4.4.2
